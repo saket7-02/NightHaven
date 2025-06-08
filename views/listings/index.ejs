@@ -1,0 +1,119 @@
+<%- layout("/layouts/boilerplate") %>
+<body>
+    
+    <!-- <form method="GET" action="/listings/new">
+        <button>Create new Listing</button>
+    </form> -->
+
+    <style>
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .filter {
+            text-align: center;
+            margin-right: 2rem;
+            opacity: 0.7;
+        }
+        .filter p{
+            font-size: 0.8rem;
+        }
+        .filter:hover{
+            opacity: 1;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .new-price {
+            text-decoration: line-through;
+        }
+        .tax-toggle {
+            border: 1px solid black;
+            border-radius: 1rem;
+            height: 3.5rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .filter a {
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+
+    <div id="filters">
+        <div class="filter">
+        <a href="/listings?category=Trending">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</a></p>
+        </a>
+        </div>
+        
+        <div class="filter">
+            <a href="/listings?category=Rooms">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </a>
+        </div>
+        <div class="filter">
+            <a href="/listings?category=Iconic cities">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic cities</p></a>
+        </div>
+        <div class="filter">
+            <a href="/listings?category=Mountains">
+            <div><i class="fa-solid fa-mountain-sun"></i></div>
+            <p>Mountains</p></a>
+        </div>
+
+        <div class="filter">
+            <a href="/listings?category=Pools">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Amazing pools</p></a>
+        </div>
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+</div>
+        </div>
+    </div>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <%for(let listing of allListings) { %>
+        <a href="/listings/<%=listing._id%>" class="listing-link">
+    <div class="card listing-card">
+        <img src="<%=listing.image.url%>" class="card-img-top" alt="listing_image" style="height: 20rem" />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+            <p class="card-text">
+                <b><%=listing.title%></b> <br />
+                <span class="price">&#8377;       <%=listing.price.toLocaleString("en-IN")%>/night</span>
+                <i class="tax-info hidden"> &nbsp; &nbsp; &#8377; <%= listing.price + 0.18*(listing.price) %>/night</i>
+            </p>
+        </div>
+    </div>
+        </a>
+ <%} %>
+</div>
+
+</body>
+
+<script>
+    let taxSwitch=document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click",()=> {
+        let taxInfo=document.getElementsByClassName("tax-info");
+        let newPrice=document.querySelectorAll(".price");
+        for(info of taxInfo) {
+            info.classList.toggle("hidden");
+        }
+        for(price of newPrice) {
+            price.classList.toggle("new-price");
+        }
+    })
+
+</script>
+
