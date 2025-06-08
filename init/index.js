@@ -1,8 +1,17 @@
 const mongoose=require("mongoose");
 const initData=require("./data.js");
 const Listing=require("../models/listing.js")
+const path=require("path");
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+
+}
+
 
 const dbUrl=process.env.ATLASDB_URL;
+
+console.log("DB URL from env:", dbUrl);
 
 main().then(()=> {
     console.log("connected to db");
